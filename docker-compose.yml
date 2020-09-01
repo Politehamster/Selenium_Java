@@ -1,24 +1,19 @@
 # To execute this docker-compose yml file use `docker-compose up -d --scale chrome=2 --scale firefox=2 up`
 # Add the `-d` flag at the end for detached execution
 # To stop the execution, hit Ctrl+C, and then `docker-compose down`
-#selenium-testudo:
-#build:
-# context: .
-# dockerfile: Dockerfile
-# volumes:
-#   - .:/tmp/stuff
+
 version: "3"
 services:
-  chrome:
-    image: selenium/node-chrome:4.0.0-alpha-7-prerelease-20200826
-    volumes:
-      - /dev/shm:/dev/shm
-    depends_on:
-      - selenium-hub
-    environment:
-      - SE_EVENT_BUS_HOST=selenium-hub
-      - SE_EVENT_BUS_PUBLISH_PORT=4442
-      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+ # chrome:
+  #  image: selenium/node-chrome:4.0.0-alpha-7-prerelease-20200826
+  #  volumes:
+  #    - /dev/shm:/dev/shm
+  #  depends_on:
+  #    - selenium-hub
+  #  environment:
+  #    - SE_EVENT_BUS_HOST=selenium-hub
+  #    - SE_EVENT_BUS_PUBLISH_PORT=4442
+  #    - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
 
   firefox:
     image: selenium/node-firefox:4.0.0-alpha-7-prerelease-20200826
@@ -31,16 +26,16 @@ services:
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
 
-  opera:
-    image: selenium/node-opera:4.0.0-alpha-7-prerelease-20200826
-    volumes:
-      - /dev/shm:/dev/shm
-    depends_on:
-      - selenium-hub
-    environment:
-      - SE_EVENT_BUS_HOST=selenium-hub
-      - SE_EVENT_BUS_PUBLISH_PORT=4442
-      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+# opera:
+#    image: selenium/node-opera:4.0.0-alpha-7-prerelease-20200826
+#   volumes:
+#      - /dev/shm:/dev/shm
+#    depends_on:
+#      - selenium-hub
+#    environment:
+#      - SE_EVENT_BUS_HOST=selenium-hub
+#      - SE_EVENT_BUS_PUBLISH_PORT=4442
+#      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
 
   selenium-hub:
     image: selenium/hub:4.0.0-alpha-7-prerelease-20200826
@@ -49,3 +44,14 @@ services:
       - "4442:4442"
       - "4443:4443"
       - "4444:4444"
+
+  selenium-testudo:
+    build: .
+#    volumes:
+#      - .:/tmp/stuff
+    depends_on:
+      - selenium-hub
+      - firefox
+#    ports:
+#      - "4445:4445"
+    command: ["/tmp/code/wait-for-it.sh", "firefox:5555", "-t", "10", "--", "python", "/tmp/code/tests/test1.py"]
