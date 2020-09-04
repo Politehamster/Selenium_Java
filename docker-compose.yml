@@ -4,16 +4,16 @@
 
 version: "3"
 services:
- # chrome:
-  #  image: selenium/node-chrome:4.0.0-alpha-7-prerelease-20200826
-  #  volumes:
-  #    - /dev/shm:/dev/shm
-  #  depends_on:
-  #    - selenium-hub
-  #  environment:
-  #    - SE_EVENT_BUS_HOST=selenium-hub
-  #    - SE_EVENT_BUS_PUBLISH_PORT=4442
-  #    - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+  chrome:
+    image: selenium/node-chrome:4.0.0-alpha-7-prerelease-20200826
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
 
   firefox:
     image: selenium/node-firefox:4.0.0-alpha-7-prerelease-20200826
